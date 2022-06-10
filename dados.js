@@ -38,6 +38,11 @@ let ronda = 0;
 
 let imgDado = document.querySelector('.imgDado');
 let imgDado1 = document.querySelector('.imgDado1');
+let usuarioContainer = document.querySelector('.usuario');
+let winerMensaje = document.createElement('span');
+winerMensaje.innerHTML = 'Ganador!!';
+winerMensaje.classList.add('winer');
+let maquinaContainer = document.querySelector('.maquina');
 let botonTirar = document.querySelector('.tirar');
 let pUsuario = document.querySelector('.puntajeUsuario');
 let pMaquina = document.querySelector('.puntajeMaquina');
@@ -47,32 +52,22 @@ botonTirar.addEventListener('click', tirar);
 function tirar () {
 
     ronda++;
-    console.log(ronda);
+    console.log(ronda)
 
     function maquina () {
-        let numeroRandom = Math.round(Math.random()*6);
-        if(numeroRandom == 0){
-            maquina();
-    
-        }else{
+        let numeroRandom = Math.round(Math.random()*5);
+
             imgDado1.src = dados[numeroRandom].dir;
             puntajeMaquina += dados[numeroRandom].valor;
             pMaquina.innerHTML = puntajeMaquina;
-            console.log(`Maquina: ${puntajeMaquina}`)
-        }
     }
     
     function jugador () {
-        let numeroRandom = Math.round(Math.random()*6);
-        if(numeroRandom == 0){
-                jugador();
+        let numeroRandom = Math.round(Math.random()*5);
         
-        }else{
-                imgDado.src = dados[numeroRandom].dir;
-                puntajeUsuario += dados[numeroRandom].valor;
-                pUsuario.innerHTML = puntajeUsuario;
-                console.log(`Jugador: ${puntajeUsuario}`)
-        }
+            imgDado.src = dados[numeroRandom].dir;
+            puntajeUsuario += dados[numeroRandom].valor;
+            pUsuario.innerHTML = puntajeUsuario;
     }
     
     if(ronda == 1 || ronda == 3 || ronda == 5 || ronda == 7){
@@ -86,12 +81,22 @@ function tirar () {
     }
 
     if(ronda == 8){
-        alert('Has acabado la partida');
+        puntajeUsuario = puntajeUsuario / 4;
+        puntajeMaquina = puntajeMaquina / 4;
+        botonTirar.innerHTML = 'Volver a empezar';
         if(puntajeUsuario > puntajeMaquina){
-            alert('Ha ganado el jugador')
-        }else(
-            alert("Ha ganado la maquina")
-        )
+            usuarioContainer.appendChild(winerMensaje);
+        }else{
+            maquinaContainer.appendChild(winerMensaje);
+        }
+    }
+
+    if(ronda >= 9){
+
+        confirmar = confirm('Desea volver a empezar?');
+        if(confirmar){
+            location.reload();
+        }
     }
 
 }
